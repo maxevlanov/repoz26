@@ -1,3 +1,3 @@
-Hi python
-Have a nice day
-Ha
+print("Hi python")
+print("Have a nice day")
+print("Ha")
