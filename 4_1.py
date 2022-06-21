@@ -1,9 +1,4 @@
-#Заполнить список степенями числа 2
+"""Заполнить список степенями числа 2"""
 n = int(input("Введите степень числа 2: "))
-ch = 2 ** n
-print(list(range(2, ch + 1)))
-
-l = []
-if n in range(1, n):
-    l.append(2**n)
-print(l)
+chisla: int = [2**i for i in range(1, n+1)]
+print(chisla)
