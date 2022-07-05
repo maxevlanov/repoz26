@@ -1,8 +1,7 @@
 string = [2,5,7,9,10]
 x = input("введите интересующий вас элемент из списка: ")
 while x not in string:
-
-    x = input("введите интересующий вас элемент из списка: ")
+    x = input("введите интересующий вас элемент из списка еще раз: ")
     t = input("введите знак > или <: ")
     a = 0
     for i in range(string):
@@ -12,3 +11,5 @@ while x not in string:
         else:
             string[i] == string[i-1]
 print(string)
+
+#проверь пожалуйста, файл 8_2_0
