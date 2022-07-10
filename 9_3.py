@@ -11,4 +11,4 @@ for i in range(n):
         else:
             a[i][j] = 3
 for row in a:
-    print(' '.join([str(elem) for elem in row]))
+    print(row)
