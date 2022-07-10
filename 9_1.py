@@ -1,10 +1,9 @@
 # Написать функцию, которая определяет, является ли список симметричным
-s = input()
+a = [1,2,3,3,2,1]
 
 
-def palindrome():
-    snew = s.replace(" ", "").lower()
-    ls = len(snew)
-    if snew[:ls // 2] == snew[ls // 2 + 1:][::-1]:
-        return "Палиндром"
-    return "Не палиндром"
+def is_symmetric(string):
+    if len(a) == 1:
+        return True
+    else:
+        return a[0] == my_str[-1] and is_symmetric(a[1:-1])
