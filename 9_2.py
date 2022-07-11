@@ -8,5 +8,5 @@ for i in range(n):
     if a[i]%2==1:
         s=s+a[i]
         s = abs(s)
-print([a[i:i + 5] for i in range(0, len(a), 5)], sep = "\v")
+print([a[i:i + 5] for i in range(0, len(a), 5)])
 print("сумма нечетных отрицательных элементов = ",s)
