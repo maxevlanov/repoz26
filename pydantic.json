@@ -1,0 +1,128 @@
+{
+ "categories': [
+ {
+   "id": "1",
+   "parent_id": "1",
+   "is_published": "true",
+   "name_en": "Max",
+   "name": "Josh"
+ }
+ {
+   "id": "2",
+   "parent_id": "2",
+   "is_published": "false",
+   "name_en": "Kevin",
+   "name": "Macc"
+ }
+]
+}
+
+{
+ "product': [
+ {
+   "id": "1",
+   "category_id":"1",
+   "price": "100",
+   "media": "micro",
+   "total":"123",
+   "is_published": "true",
+   "name_en": "Kate",
+   "name": "Joshy"
+ }
+ {
+   "id": "21",
+   "category_id":"22",
+   "price": "101",
+   "media": "micro_sd",
+   "total":"12355",
+   "is_published": "false",
+   "name_en": "Katerina",
+   "name": "Joshya"
+ }
+]
+}
+
+{
+ "order_items': [
+ {
+   "id": "1",
+   "order_id":"1011",
+   "product_id": "100",
+   "total":"123"
+ }
+ {
+   "id": "2",
+   "order_id":"11111",
+   "product_id": "110",
+   "total":"132"
+ }
+]
+}
+
+{
+ "orders': [
+ {
+   "id": "1",
+   "bot_user_id":"11",
+   "date_create": "2022-12-26"
+   "status_id": "10",
+   "invoice_id":"HEYHO"
+ }
+ {
+   "id": "2",
+   "bot_user_id":"22",
+   "date_create": "2020-11-11"
+   "status_id": "5",
+   "invoice_id":"HELLO"
+ }
+]
+}
+
+{
+ "bot_users': [
+ {
+   "id": "Katya",
+   "is_blocked":"true",
+   "balance": "10000",
+   "language_id":"10"
+ }
+ {
+   "id": "Sasha",
+   "is_blocked":"false",
+   "balance": "10520",
+   "language_id":"20"
+ }
+]
+}
+
+{
+ "invoices': [
+ {
+   "id": "Max",
+   "bot_user_id":"Papa",
+   "date_created": "2022-02-02",
+   "total":"10"
+   "status_id":"120"
+ }
+ {
+   "id": "Masha",
+   "bot_user_id":"Mash",
+   "date_created": "2021-03-01",
+   "total":"102120"
+   "status_id":"121"
+ }
+]
+}
+
+{
+ "languages': [
+ {
+   "id": "32",
+   "languages_code":"010"
+ }
+  {
+   "id": "30",
+   "languages_code":"011"
+ }
+]
+}

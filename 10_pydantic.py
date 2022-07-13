@@ -44,4 +44,9 @@ class MagazineSceme(BaseModel):
         min_length=8
     )
 
-@validator("languages")
+
+import json
+
+with open("pydantic.json", "r", encoding="utf-8") as json_file:
+    data = json.load(json_file)
+print(data)
