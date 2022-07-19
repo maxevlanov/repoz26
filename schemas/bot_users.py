@@ -7,7 +7,7 @@ class Bot_userSchema(BaseModel):
     language_id: int = Field(ge=1, default=None)
 
 class Bot_userSchemaInDBSchema(Bot_userSchema):
-    id: int = Field(ge=1)
+    id: int = Field(ge=1, min_length=1)
 
 conn = sqlite3.connect("db.db")
 cur = conn.cursor()

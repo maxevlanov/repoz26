@@ -2,10 +2,10 @@ import sqlite3
 from pydantic import BaseModel, Field
 
 class OrderSchema(BaseModel):
-    bot_user_id: int = Field(ge=1, default=None)
-    date_create: int = Field(default=None)
-    status_id: int = Field(default=None)
-    invoice_id: str = Field(max_length=20)
+    bot_user_id: int = Field(ge=1, min_length=1, default=None)
+    date_create: int = Field(ge=1, default=None)
+    status_id: int = Field(ge=1, default=None)
+    invoice_id: str = Field(min_length=1, max_length=20)
 
 class OrderSchemaInDBSchema(OrderSchema):
     id: int = Field(ge=1)

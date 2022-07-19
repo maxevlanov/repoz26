@@ -1,29 +1,65 @@
-import sqlite3
+from sqlalchemy import select, update, delete
+from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
-conn = sqlite3.connect("db.db")
-cur = conn.cursor()
+from models import Language, create_session
+from schemas import LanguageScheme, LanguageInDBSchema
 
-class Language CRUD:
 
-    @staticmethod
-    def add(order:LanguageSchema) -> None:
-        cur.execute("""
-        INSERT INTO languages(language_code);
-        """), (languages.language_code)
-        conn.commit()
+class CRUDLanguage:
 
     @staticmethod
-    def get(language_id:int) -> LanguageInDBSchema:
-        pass
+    @create_session
+    def add(language: LanguageScheme, session: Session = None) -> LanguageInDBSchema | None:
+        language = Language(
+            **language.dict()
+        )
+        session.add(language)
+        try:
+            session.commit()
+        except IntegrityError:
+            return None
+        else:
+            session.refresh(language)
+            return LanguageInDBSchema(**language.__dict__)
 
     @staticmethod
-    def get_all() -> list[LanguageInDBSchema]:
-        pass
+    @create_session
+    def get(language_id: int, session: Session = None) -> LanguageInDBSchema | None:
+        language = session.execute(
+            select(Language).where(Language.id == language_id)
+        )
+        language = language.first()
+        if language:
+            return LanguageInDBSchema(**language[0].__dict__)
 
     @staticmethod
-    def update(language_id: int, language: LanguageSchema) -> None:
-        pass
+    @create_session
+    def get_all(language_id: int = None, session: Session = None) -> list[LanguageInDBSchema] | None:
+        if language_id:
+            languages = session.execute(
+                select(Language).where(Language.language_id == language_id)
+            )
+        else:
+            languages = session.execute(
+                select(Language)
+            )
+        return [LanguageInDBSchema(**language[0].__dict__) for language in languages]
 
     @staticmethod
-    def delete(language_id: int) -> None:
-        pass
+    @create_session
+    def update(language: LanguageInDBSchema, session: Session = None) -> None:
+        session.execute(
+            update(Language).where(Language.id == language.id).values(
+                **language.dict()
+            )
+        )
+        session.commit()
+
+    @staticmethod
+    @create_session
+    def delete(language_id: int, session: Session = None) -> None:
+        session.execute(
+            delete(Language).where(Language.id == language.id)
+        )
+        session.commit()

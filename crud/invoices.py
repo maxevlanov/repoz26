@@ -1,29 +1,65 @@
-import sqlite3
+from sqlalchemy import select, update, delete
+from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
-conn = sqlite3.connect("db.db")
-cur = conn.cursor()
+from models import Invoice, create_session
+from schemas import InvoiceScheme, InvoiceInDBSchema
 
-class Invoice CRUD:
 
-    @staticmethod
-    def add(invoice:InvoiceSchema) -> None:
-        cur.execute("""
-        INSERT INTO invoices(bot_user_id, date_created, total, status_id);
-        """), (invoice.bot_user_id, invoice.date_created, invoice.total, invoice.status_id)
-        conn.commit()
+class CRUDInvoice:
 
     @staticmethod
-    def get(invoice_id:int) -> InvoiceInDBSchema:
-        pass
+    @create_session
+    def add(invoice: InvoiceScheme, session: Session = None) -> InvoiceInDBSchema | None:
+        invoice = Invoice(
+            **invoice.dict()
+        )
+        session.add(invoice)
+        try:
+            session.commit()
+        except IntegrityError:
+            return None
+        else:
+            session.refresh(invoice)
+            return InvoiceInDBSchema(**invoice.__dict__)
 
     @staticmethod
-    def get_all() -> list[InvoiceInDBSchema]:
-        pass
+    @create_session
+    def get(invoice_id: int, session: Session = None) -> InvoiceInDBSchema | None:
+        invoice = session.execute(
+            select(Invoice).where(Invoice.id == invoice_id)
+        )
+        invoice = invoice.first()
+        if invoice:
+            return InvoiceInDBSchema(**invoice[0].__dict__)
 
     @staticmethod
-    def update(invoice_id: int, invoice: InvoiceSchema) -> None:
-        pass
+    @create_session
+    def get_all(status_id: int = None, session: Session = None) -> list[InvoiceInDBSchema] | None:
+        if status_id:
+            invoices = session.execute(
+                select(Invoice).where(Invoice.status_id == status_id)
+            )
+        else:
+            invoices = session.execute(
+                select(Invoice)
+            )
+        return [InvoiceInDBSchema(**invoice[0].__dict__) for invoice in invoices]
 
     @staticmethod
-    def delete(invoice_id: int) -> None:
-        pass
+    @create_session
+    def update(invoice: InvoiceScheme, session: Session = None) -> None:
+        session.execute(
+            update(Invoice).where(Invoice.id == invoice.id).values(
+                **invoice.dict()
+            )
+        )
+        session.commit()
+
+    @staticmethod
+    @create_session
+    def delete(invoice_id: int, session: Session = None) -> None:
+        session.execute(
+            delete(Invoice).where(Invoice.id == invoice.id)
+        )
+        session.commit()

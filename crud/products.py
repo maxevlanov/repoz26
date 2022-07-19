@@ -1,30 +1,65 @@
-import sqlite3
+from sqlalchemy import select, update, delete
+from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
-conn = sqlite3.connect("db.db")
-cur = conn.cursor()
+from models import Product, create_session
+from schemas import ProductSchema, ProductInDBSchema
 
-class Product CRUD:
 
-    @staticmethod
-    def add(product:ProductSchema) -> None:
-        cur.execute("""
-        INSERT INTO products(category_id, price, media, total, is_published, name_en, name);
-        """), (product.category_id, product.price, product.media, product.total, product.is_published,
-               product.name_en, product.name)
-        conn.commit()
+class CRUDProduct:
 
     @staticmethod
-    def get(product_id:int) -> ProductInDBSchema:
-        pass
+    @create_session
+    def add(product: ProductSchema, session: Session = None) -> ProductInDBSchema | None:
+        product = Product(
+            **product.dict()
+        )
+        session.add(product)
+        try:
+            session.commit()
+        except IntegrityError:
+            return None
+        else:
+            session.refresh(product)
+            return ProductInDBSchema(**product.__dict__)
 
     @staticmethod
-    def get_all() -> list[ProductInDBSchema]:
-        pass
+    @create_session
+    def get(product_id: int, session: Session = None) -> ProductInDBSchema | None:
+        product = session.execute(
+            select(Product).where(Product.id == product_id)
+        )
+        product = product.first()
+        if product:
+            return ProductInDBSchema(**product[0].__dict__)
 
     @staticmethod
-    def update(product_id: int, product: ProductSchema) -> None:
-        pass
+    @create_session
+    def get_all(category_id: int = None, session: Session = None) -> list[ProductInDBSchema] | None:
+        if category_id:
+            products = session.execute(
+                select(Product).where(Product.category_id == category_id)
+            )
+        else:
+            products = session.execute(
+                select(Product)
+            )
+        return [ProductInDBSchema(**product[0].__dict__) for product in products]
 
     @staticmethod
-    def delete(product_id: int) -> None:
-        pass
+    @create_session
+    def update(product: ProductInDBSchema, session: Session = None) -> None:
+        session.execute(
+            update(Product).where(Product.id == product.id).values(
+                **product.dict()
+            )
+        )
+        session.commit()
+
+    @staticmethod
+    @create_session
+    def delete(product_id: int, session: Session = None) -> None:
+        session.execute(
+            delete(Product).where(Product.id == product.id)
+        )
+        session.commit()
