@@ -1,4 +1,3 @@
-import sqlite3
 from pydantic import BaseModel, Field
 
 class CategorySchema(BaseModel):
@@ -9,21 +8,3 @@ class CategorySchema(BaseModel):
 
 class CategorySchemaInDBSchema(CategorySchema):
     id: int = Field(ge=1)
-
-conn = sqlite3.connect("db.db")
-cur = conn.cursor()
-cur.execute("""
-SELECT * FROM categories;
-""")
-categories = []
-for category in cur.fetchall():
-    categories.append(
-        Category(
-            id=category[0],
-            parent_id=category[1],
-            is_published=category[2],
-            name_en=category[3],
-            name=category[4]
-        )
-    )
-print(categories)

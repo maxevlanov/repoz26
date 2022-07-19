@@ -1,8 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from core.config import CONFIG
 
-DATABASE_URL: str = "postgresql://belhard:belhard@localhost:5432/belhard"
+
+DATABASE_URI: str = CONFIG.DATABASE.URL
 ENGINE = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=ENGINE)
 
