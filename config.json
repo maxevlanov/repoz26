@@ -1,5 +1,6 @@
 {
   "DATABASE": {
-    "URL": "postgresql://belhard:belhard@localhost:5432/belhard"
+    "URL": "postgresql://belhard:belhard@localhost:5432/belhard",
+    "ASYNC_URL": "postgresql+asyncpg://belhard:belhard@localhost:5432/belhard"
   }
 }
