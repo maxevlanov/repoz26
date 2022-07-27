@@ -1,3 +1,5 @@
+from json import load
+
 from schemas import ConfigSchema
 
 

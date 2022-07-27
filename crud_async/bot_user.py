@@ -5,7 +5,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from models import BotUser, create_async_session
 from schemas import BotUserSchema, BotUserInDBSchema
 
-
 class CRUDBotUser:
 
     @staticmethod
@@ -23,6 +22,7 @@ class CRUDBotUser:
             await session.refresh(bot_user)
             return BotUserInDBSchema(**bot_user.__dict__)
 
+
     @staticmethod
     @create_async_session
     async def get(bot_user_id: int, session: AsyncSession = None) -> BotUserInDBSchema | None:
@@ -33,29 +33,26 @@ class CRUDBotUser:
         if bot_user:
             return BotUserInDBSchema(**bot_user[0].__dict__)
 
-    @staticmethod
-    @create_async_session
-    async def get_all(language_id: int = None, session: AsyncSession = None) -> list[BotUserInDBSchema] | None:
-        if language_id:
-            bot_users = await session.execute(
-                select(BotUser).where(BotUser.language_id == language_id)
-                .where(BotUser.language_id == language_id)
-            )
-        else:
-            bot_users = await session.execute(
-                select(BotUser)
-            )
-        return [BotUserInDBSchema(**bot_user[0].__dict__) for bot_user in bot_users]
 
     @staticmethod
     @create_async_session
-    async def update(bot_user: BotUserSchema, session: AsyncSession = None) -> None:
+    async def get_all(session: AsyncSession = None) -> list[BotUserInDBSchema] | None:
+        bot_users = await session.execute(
+            select(BotUser)
+        )
+        return [BotUserInDBSchema(**bot_user[0].__dict__) for bot_user in bot_users]
+
+
+    @staticmethod
+    @create_async_session
+    async def update(bot_user: BotUserInDBSchema, session: AsyncSession = None) -> None:
         await session.execute(
             update(BotUser).where(BotUser.id == bot_user.id).values(
-                **bot_user.dict()
+                **bot_user.__dict__
             )
         )
         await session.commit()
+
 
     @staticmethod
     @create_async_session

@@ -1,9 +1,9 @@
-from pydantic import BaseModel, PostGresDSN
+from pydantic import BaseModel, PostgresDsn
 
 
 class DatabaseSchema(BaseModel):
     URL: PostgresDsn
-    ASYNC_URL: PostGresDSN
+    ASYNC_URL: PostgresDsn
 
 
 class ConfigSchema(BaseModel):

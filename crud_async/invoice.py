@@ -3,14 +3,14 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import Invoice, create_async_session
-from schemas import InvoiceScheme, InvoiceInDBSchema
+from schemas import InvoiceSchema, InvoiceInDBSchema
 
 
 class CRUDInvoice:
 
     @staticmethod
     @create_async_session
-    async def add(invoice: InvoiceScheme, session: AsyncSession = None) -> InvoiceInDBSchema | None:
+    async def add(invoice: InvoiceSchema, session: AsyncSession = None) -> InvoiceInDBSchema | None:
         invoice = Invoice(
             **invoice.dict()
         )
@@ -23,6 +23,7 @@ class CRUDInvoice:
             await session.refresh(invoice)
             return InvoiceInDBSchema(**invoice.__dict__)
 
+
     @staticmethod
     @create_async_session
     async def get(invoice_id: int, session: AsyncSession = None) -> InvoiceInDBSchema | None:
@@ -33,23 +34,18 @@ class CRUDInvoice:
         if invoice:
             return InvoiceInDBSchema(**invoice[0].__dict__)
 
+
     @staticmethod
     @create_async_session
-    async def get_all(status_id: int = None, session: AsyncSession = None) -> list[InvoiceInDBSchema] | None:
-        if status_id:
-            invoices = await session.execute(
-                select(Invoice).where(Invoice.status_id == status_id)
-                .where(Invoice.status_id == status_id)
-            )
-        else:
-            invoices = await session.execute(
-                select(Invoice)
-            )
+    async def get_all(session: AsyncSession = None) -> list[InvoiceInDBSchema]:
+        invoices = await session.execute(
+            select(Invoice)
+        )
         return [InvoiceInDBSchema(**invoice[0].__dict__) for invoice in invoices]
 
     @staticmethod
     @create_async_session
-    async def update(invoice: InvoiceScheme, session: AsyncSession = None) -> None:
+    async def update(invoice: InvoiceSchema, session: AsyncSession = None) -> None:
         await session.execute(
             update(Invoice).where(Invoice.id == invoice.id).values(
                 **invoice.dict()
@@ -61,6 +57,6 @@ class CRUDInvoice:
     @create_async_session
     async def delete(invoice_id: int, session: AsyncSession = None) -> None:
         await session.execute(
-            delete(Invoice).where(Invoice.id == invoice.id)
+            delete(Invoice).where(Invoice.id == invoice_id)
         )
         await session.commit()

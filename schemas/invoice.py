@@ -7,5 +7,5 @@ class InvoiceSchema(BaseModel):
     total: int = Field(default=None)
     status_id: int = Field(default=None)
 
-class InvoiceSchemaInDBSchema(InvoiceSchema):
+class InvoiceInDBSchema(InvoiceSchema):
     id: int = Field(ge=1, min_length=1)

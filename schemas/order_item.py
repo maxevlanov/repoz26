@@ -5,5 +5,5 @@ class OrderItemSchema(BaseModel):
     product_id: int = Field(ge=1, default=None)
     total: int = Field(ge=0, default=None)
 
-class OrderItemSchemaInDBSchema(OrderItemSchema):
+class OrderItemInDBSchema(OrderItemSchema):
     id: int = Field(ge=1)

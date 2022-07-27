@@ -3,14 +3,14 @@ from sqlalchemy.exc import IntegrityError
 create_async_session
 
 from models import Status, create_async_session
-from schemas import StatusScheme, StatusInDBSchema
+from schemas import StatusSchema, StatusInDBSchema
 
 
 class CRUDStatus:
 
     @staticmethod
     @create_async_session
-    async def add(status: ProductSchema, session: AsyncSession = None) -> StatusInDBSchema | None:
+    async def add(status: StatusSchema, session: AsyncSession = None) -> StatusInDBSchema | None:
         status = Status(
             **status.dict()
         )
@@ -35,16 +35,10 @@ class CRUDStatus:
 
     @staticmethod
     @create_async_session
-    async def get_all(status_id: int = None, session: AsyncSession = None) -> list[StatusInDBSchema] | None:
-        if status_id:
-            statuses = await session.execute(
-                select(Status).where(Status.status_id == status_id)
-                .where(Status.status_id == status_id)
-            )
-        else:
-            statuses = await session.execute(
-                select(Status)
-            )
+    async def get_all(session: AsyncSession = None) -> list[StatusInDBSchema] | None:
+        statuses = await session.execute(
+            select(Status)
+        )
         return [StatusInDBSchema(**status[0].__dict__) for status in statuses]
 
     @staticmethod

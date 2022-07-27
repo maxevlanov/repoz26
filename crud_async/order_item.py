@@ -3,14 +3,14 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import OrderItem, create_async_session
-from schemas import OrderItemScheme, OrderItemInDBSchema
+from schemas import OrderItemSchema, OrderItemInDBSchema
 
 
 class CRUDOrderItem:
 
     @staticmethod
     @create_async_session
-    async def add(order_item: OrderItemScheme, session: AsyncSession = None) -> OrderItemInDBSchema | None:
+    async def add(order_item: OrderItemSchema, session: AsyncSession = None) -> OrderItemInDBSchema | None:
         order_item = OrderItem(
             **order_item.dict()
         )
@@ -27,7 +27,7 @@ class CRUDOrderItem:
     @create_async_session
     async def get(order_item_id: int, session: AsyncSession = None) -> OrderItemInDBSchema | None:
         order_item = await session.execute(
-            select(order_item).where(OrderItem.id == order_item_id)
+            select(OrderItem).where(OrderItem.id == order_item_id)
         )
         order_item = order_item.first()
         if order_item:
@@ -35,16 +35,10 @@ class CRUDOrderItem:
 
     @staticmethod
     @create_async_session
-    async def get_all(order_id: int = None, session: AsyncSession = None) -> list[OrderItemInDBSchema] | None:
-        if order_id:
-            order_items = await session.execute(
-                select(order_item).where(order_item.order_id == order_id)
-                .where(OrderItem.order_id == order_id)
-            )
-        else:
-            order_items = await session.execute(
-                select(Order_item)
-            )
+    async def get_all(session: AsyncSession = None) -> list[OrderItemInDBSchema] | None:
+    order_items = await session.execute(
+            select(OrderItem)
+        )
         return [OrderItemInDBSchema(**order_item[0].__dict__) for order_item in order_items]
 
     @staticmethod

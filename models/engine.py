@@ -23,5 +23,5 @@ ASYNC_ENGINE = create_async_engine(CONFIG.DATABASE.ASYNC_URL)
 def create_async_session(func):
     async def wrapper(**kwargs):
         async with AsyncSession(bind=ASYNC_ENGINE) as session:
-            return await func(**kwargs, session-session)
+            return await func(**kwargs, session=session)
         return wrapper

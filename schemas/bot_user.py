@@ -5,5 +5,5 @@ class BotUserSchema(BaseModel):
     balance: int = Field(default=None)
     language_id: int = Field(ge=1, default=None)
 
-class BotUserSchemaInDBSchema(BotUserSchema):
+class BotUserInDBSchema(BotUserSchema):
     id: int = Field(ge=1, min_length=1)

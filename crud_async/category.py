@@ -23,6 +23,7 @@ class CRUDCategory:
             await session.refresh(category)
             return CategoryInDBSchema(**category.__dict__)
 
+
     @staticmethod
     @create_async_session
     async def get(category_id: int, session: AsyncSession = None) -> CategoryInDBSchema | None:
@@ -32,6 +33,7 @@ class CRUDCategory:
         category = category.first()
         if category:
             return CategoryInDBSchema(**category[0].__dict__)
+
 
     @staticmethod
     @create_async_session
@@ -47,6 +49,7 @@ class CRUDCategory:
             )
         return [CategoryInDBSchema(**category[0].__dict__) for category in categories]
 
+
     @staticmethod
     @create_async_session
     async def delete(category_id: int, session: AsyncSession = None) -> None:
@@ -54,6 +57,7 @@ class CRUDCategory:
             delete(Category).where(Category.id == category_id)
         )
         await session.commit()
+
 
     @staticmethod
     @create_async_session
@@ -67,6 +71,7 @@ class CRUDCategory:
             )
         )
         await session.commit()
+
 
     @staticmethod
     @create_async_session
