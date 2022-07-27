@@ -1,14 +1,14 @@
-import sqlite3
+from fastapi import FastAPI
+
+from crud_async import CRUDCategory
+from schemas import CategoryInDBSchema
 
 
-conn = sqlite3.connect("db.db")
-cur = conn.cursor()
+app = FastAPI()
 
 
-cur.execute("""
-CREATE TABLE IF NOT EXISTS users(
-    id INTEGER PRIMARY KEY,
-    username TEXT UNIQUE NOT NULL,
-    age INTEGER
-); 
-""")
+@app.get("/category", response_model=CategoryInDBSchema)
+async def get_category(category_id: int):
+    category = await CRUDCategory.get(category_id=category_id)
+    if category:
+        return
