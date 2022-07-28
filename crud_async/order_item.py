@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -36,7 +38,7 @@ class CRUDOrderItem:
     @staticmethod
     @create_async_session
     async def get_all(session: AsyncSession = None) -> list[OrderItemInDBSchema] | None:
-    order_items = await session.execute(
+        order_items = await session.execute(
             select(OrderItem)
         )
         return [OrderItemInDBSchema(**order_item[0].__dict__) for order_item in order_items]

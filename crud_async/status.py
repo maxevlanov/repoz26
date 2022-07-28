@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
-create_async_session
+from sqlalchemy.ext.asyncio import AsyncSession
+
 
 from models import Status, create_async_session
 from schemas import StatusSchema, StatusInDBSchema

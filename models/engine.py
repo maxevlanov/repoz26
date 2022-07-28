@@ -4,8 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 
 from core.config import CONFIG
 
-
-DATABASE_URI: str = CONFIG.DATABASE.URL
+DATABASE_URL: str = CONFIG.DATABASE.URL
 ENGINE = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=ENGINE)
 
@@ -14,6 +13,7 @@ def create_session(func):
     def wrapper(**kwargs):
         with Session() as session:
             return func(**kwargs, session=session)
+
     return wrapper
 
 
@@ -24,4 +24,4 @@ def create_async_session(func):
     async def wrapper(**kwargs):
         async with AsyncSession(bind=ASYNC_ENGINE) as session:
             return await func(**kwargs, session=session)
-        return wrapper
+    return wrapper

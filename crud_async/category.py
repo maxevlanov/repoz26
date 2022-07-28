@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession

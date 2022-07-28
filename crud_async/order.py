@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -37,7 +39,7 @@ class CRUDOrder:
     @create_async_session
     async def get_all(session: AsyncSession = None) -> list[OrderInDBSchema] | None:
         orders = await session.execute(
-            select(order)
+            select(Order)
         )
         return [OrderInDBSchema(**order[0].__dict__) for order in orders]
 
@@ -55,6 +57,6 @@ class CRUDOrder:
     @create_async_session
     async def delete(order_id: int, session: AsyncSession = None) -> None:
         await session.execute(
-            delete(Order).where(order.id == order_id)
+            delete(Order).where(Order.id == order_id)
         )
         await session.commit()
