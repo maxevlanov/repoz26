@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import (Column, SmallInteger,
                         ForeignKey, VARCHAR, CHAR,
-                        TIMESTAMP, DECIMAL, BOOLEAN)
+                        TIMESTAMP, DECIMAL, BOOLEAN, Integer, Text)
 from sqlalchemy.orm import declarative_base
 
 
@@ -82,3 +82,11 @@ class Language(Base):
 
     id = Column(SmallInteger, primary_key=True)
     language_code = Column(CHAR(2), nullable=False, unique=True)
+
+
+class User(Base):
+    __tablename__: str = "users"
+
+    id = Column(Integer, primary_key=True)
+    username = Column(VARCHAR(24), unique=True, nullable=False)
+    hashed_password = Column(Text, nullable=False)

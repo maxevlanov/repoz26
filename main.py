@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from endpoints.v1 import api_v1_router
+from endpoints.auth import auth_router
 
 tags = {
     {
@@ -51,3 +52,4 @@ app.add_middleware(
     allow_headers=["*"]
 )
 app.include_router(api_v1_router)
+app.include_router(auth_router)

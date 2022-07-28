@@ -8,3 +8,4 @@ from invoice import *
 from language import *
 
 from .config import *
+from .user import *

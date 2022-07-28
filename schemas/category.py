@@ -10,6 +10,12 @@ class CategorySchema(BaseModel):
         title="Name of category",
         description="name of category"
     )
+    categories: list["CategorySchema"] = Field(default=None)
+
+CategorySchema.update_forward_refs()
+
+
+
 
 class CategoryInDBSchema(CategorySchema):
     id: int = Field(ge=1)

@@ -6,3 +6,4 @@ from .status import CRUDStatus
 from .bot_user import CRUDBotUser
 from .order_item import CRUDOrderItem
 from .order import CRUDOrder
+from .user import CRUDUser

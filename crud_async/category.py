@@ -13,8 +13,10 @@ class CRUDCategory:
     @staticmethod
     @create_async_session
     async def add(category: CategorySchema, session: AsyncSession = None) -> CategoryInDBSchema | None:
+        category = category.dict()
+        del category["categories"]
         category = Category(
-            **category.dict()
+            **category
         )
         session.add(category)
         try:
