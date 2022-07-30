@@ -20,23 +20,24 @@ async def get_invoice(invoice_id: int = Query(ge=1)):
 @invoice_router.get("/all", response_model=list[InvoiceInDBShema], tags=["Invoice"])
 async def get_all_invoices(bot_user_id: int = Query(ge=1)):
     invoices = await CRUDInvoice.get_all(bot_user_id=bot_user_id)
-    return invoices
-
+    if invoices:
+        return invoices
+    raise HTTPException(status_code=404, detail="invoices not found")
 
 @invoice_router.post("/add", response_model=InvoiceInDBShema, tags=["Invoice"])
 async def add_invoice(invoice: InvoiceSchema):
     invoice = await CRUDInvoice.add(invoice=invoice)
     if invoice:
-        return invoice
+        return invoice.id
     else:
         raise HTTPException(status_code=404, detail="invoice is exist")
 
-
 @invoice_router.delete("/del", tags=["Invoice"])
 async def delete_invoice(invoice_id: int):
-    await CRUDInvoice.delete(invoice_id=invoice_id)
-    raise HTTPException(status_code=200, detail="invoice was deleted")
-
+    invoice = await CRUDInvoice.get(invoice_id=invoice_id)
+    if not invoice:
+        raise HTTPException(status_code=404, detail="invoice not found")
+    await InvoiceCRUD.delete(invoice_id=invoice_id)
 
 @invoice_router.put("/update", tags=["Invoice"])
 async def update_invoice(invoice: InvoiceInDBShema):

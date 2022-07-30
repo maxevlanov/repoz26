@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from endpoints.v1 import api_v1_router
 from endpoints.auth import auth_router
 
-tags = {
+tags = [
     {
         "name": "Category",
         "description": "Endpoints for category"
@@ -37,7 +37,7 @@ tags = {
         "name": "Order",
         "description": "Endpoints for order"
     },
-}
+]
 
 app = FastAPI(
     title="Belhard",
