@@ -78,7 +78,7 @@ async def get_all_categories(parent_id: int = Query(ge=1)):
     return categories
 
 
-@category_router.post("/add", responcse_model=CategoryInDBSchema, tags=["Category"])
+@category_router.post("/add", response_model=CategoryInDBSchema, tags=["Category"])
 async def add_category(category: CategorySchema, request: Request = Depends(validate_user)):
     if request:
         category = await CRUDCategory.add(category=category)
