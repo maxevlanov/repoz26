@@ -23,7 +23,7 @@ async def get_all_products(category_id: int = Query(ge=1)):
     return products
 
 
-@product_router.post("/add", responcse_model=ProductInDBShema, tags=["Product"])
+@product_router.post("/add", response_model=ProductInDBShema, tags=["Product"])
 async def add_product(product: ProductSchema):
     product = await CRUDProduct.add(product=product)
     if product:

@@ -23,7 +23,7 @@ async def get_all_orders(bot_user_id: int = Query(ge=1)):
     return orders
 
 
-@order_router.post("/add", responcse_model=OrderInDBShema, tags=["Order"])
+@order_router.post("/add", response_model=OrderInDBShema, tags=["Order"])
 async def add_order(order: OrderSchema):
     order = await CRUDOrder.add(order=order)
     if order:

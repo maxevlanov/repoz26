@@ -23,7 +23,7 @@ async def get_all_invoices(bot_user_id: int = Query(ge=1)):
     return invoices
 
 
-@invoice_router.post("/add", responcse_model=InvoiceInDBShema, tags=["Invoice"])
+@invoice_router.post("/add", response_model=InvoiceInDBShema, tags=["Invoice"])
 async def add_invoice(invoice: InvoiceSchema):
     invoice = await CRUDInvoice.add(invoice=invoice)
     if invoice:

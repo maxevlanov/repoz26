@@ -23,7 +23,7 @@ async def get_all_statuses(status_id: int = Query(ge=1)):
     return statuses
 
 
-@status_router.post("/add", responcse_model=StatusInDBShema, tags=["Status"])
+@status_router.post("/add", response_model=StatusInDBShema, tags=["Status"])
 async def add_status(status: StatusSchema):
     status = await CRUDStatus.add(status=status)
     if status:

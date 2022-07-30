@@ -23,7 +23,7 @@ async def get_all_bot_users(language_id: int = Query(ge=1)):
     return bot_users
 
 
-@bot_user_router.post("/add", responcse_model=BotUserInDBShema, tags=["BotUser"])
+@bot_user_router.post("/add", response_model=BotUserInDBShema, tags=["BotUser"])
 async def add_bot_user(bot_user: BotUserSchema):
     bot_user = await CRUDBotUser.add(bot_user=bot_user)
     if bot_user:

@@ -23,7 +23,7 @@ async def get_all_languages(language_code: int = Query(ge=1)):
     return languages
 
 
-@language_router.post("/add", responcse_model=LanguageInDBShema, tags=["Language"])
+@language_router.post("/add", response_model=LanguageInDBShema, tags=["Language"])
 async def add_language(language: LanguageSchema):
     language = await CRUDLanguage.add(language=language)
     if language:

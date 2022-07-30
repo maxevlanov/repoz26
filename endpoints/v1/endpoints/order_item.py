@@ -23,7 +23,7 @@ async def get_all_oder_items(order_id: int = Query(ge=1)):
     return order_items
 
 
-@order_item_router.post("/add", responcse_model=OrderItemInDBShema, tags=["OrderItem"])
+@order_item_router.post("/add", response_model=OrderItemInDBShema, tags=["OrderItem"])
 async def add_order_item(order_item: OrderItemSchema):
     order_item = await CRUDOrderItem.add(order_item=order_item)
     if order_item:
