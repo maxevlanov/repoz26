@@ -11,4 +11,4 @@ def test_request():
         print(response.status_code)
         print(response.json())
 
-foo()
+test_request()

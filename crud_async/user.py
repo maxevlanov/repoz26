@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import select
+from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -36,6 +36,13 @@ class CRUDUser:
         if user:
             return UserInDBSchema(**user[0].__dict__)
 
+    @staticmethod
+    @create_async_session
+    async def get_all(session: AsyncSession = None) -> list[UserInDBSchema]:
+        users = await session.execute(
+            select(User)
+        )
+        return [UserInDBSchema(**user[0].__dict__) for user in users]
 
     @staticmethod
     @create_async_session
@@ -47,3 +54,21 @@ class CRUDUser:
         user = user.first()
         if user:
             return UserInDBSchema(**user[0].__dict__)
+
+    @staticmethod
+    @create_async_session
+    async def update(user: UserInDBSchema, session: AsyncSession = None) -> None:
+        await session.execute(
+            update(User).where(User.id == user.id). values(
+                **user.__dict__
+            )
+        )
+        await session.commit()
+
+    @staticmethod
+    @create_async_session
+    async def delete(user_id: int, session: AsyncSession = None) -> None:
+        await session.execute(
+            delete(User).where(User.id == user_id)
+        )
+        await session.commit()
