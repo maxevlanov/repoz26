@@ -37,7 +37,7 @@ async def delete_invoice(invoice_id: int):
     invoice = await CRUDInvoice.get(invoice_id=invoice_id)
     if not invoice:
         raise HTTPException(status_code=404, detail="invoice not found")
-    await InvoiceCRUD.delete(invoice_id=invoice_id)
+    await CRUDInvoice.delete(invoice_id=invoice_id)
 
 @invoice_router.put("/update", tags=["Invoice"])
 async def update_invoice(invoice: InvoiceInDBShema):
